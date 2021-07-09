@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} 
+
+    <h2 class="text-center font-black">News App</h2>
+    {% for i in users %}
+        <div class="container mt-32 mx-auto p-4 md:p-0">
+            <!-- Cardwrapper -->
+            <div class="shadow-lg flex flex-wrap w-full lg:w-4/5 mx-auto">
+                <!-- Card image -->
+                <div class="bg-cover bg-bottom border w-full md:w-1/3 h-64 md:h-auto relative" style="background-image:url({{i.urlToImage}})">
+                </div>
+                <!-- ./Card image -->
+                <!-- Card body -->
+                <div class="bg-white w-full md:w-2/3">
+                    <!-- Card body - outer wrapper -->
+                    <div class="h-full mx-auto px-6 md:px-0 md:pt-6 md:-ml-6 relative">
+                        <!-- Card body - inner wrapper -->
+                        <div class="bg-white lg:h-full p-6 -mt-6 md:mt-0 relative mb-4 md:mb-0 flex flex-wrap md:flex-wrap items-center">
+                        <!-- Card title and subtitle -->
+                        
+                            <div class="font-bold text-xl mb-2">
+                                <h3>{{i.title}}</h3>
+                                <p class="mb-0 mt-3 text-grey-dark text-sm italic">{{i.author}}</p>
+                            </div>
+                            
+                            <hr class="w-1/4 md:ml-0 mt-4  border lg:hidden">
+                        
+                            <!-- ./Card title and subtitle -->
+                        
+                            <!-- Card description -->
+                            <div class="w-full lg:w-3/5 lg:px-3">
+                                <p class="text-md mt-4 lg:mt-0 text-justify md:text-left text-sm">
+                                {{i.description}}
+                                </p>
+                                <small class="italic">
+                                    Published At: {{i.publishedAt}}
+                                </small>
+                            </div>
+                            <!-- ./Card description -->
+                        
+                            <!-- Call to action button -->
+                            <div class="w-full lg:w-1/5 mt-6 lg:mt-0 lg:px-4 text-center md:text-left">
+                                <a href="{{i.url}}" target="_blank" class="rounded-full bg-blue-500 hover:bg-grey-darker hover:text-white border border-solid border-grey w-1/3 lg:w-full py-2">Visit now</a>
+                            </div>
+                            <!-- ./Call to action button -->
+                        </div>
+                        <!-- ./Card body - inner wrapper -->
+                    </div>
+                    <!-- ./Card body - outer wrapper -->
+                </div>
+                <!-- ./Card body -->
+            </div>
+            <!-- ./Card wrapper -->
+        </div>
+    {% endfor %}
+    <br><br>
+    <div class="container">
+        {% if users.has_other_pages %}
+            <ul class="flex  justify-evenly  bg-blue-500" >
+                {% if users.has_previous %}
+                <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in users.paginator.page_range %}
+                {% if users.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if users.has_next %}
+                <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+            </ul>
+
+        {% endif %}
+    </div>
+    
+    
+       
+    
+    
+{%endblock%}
